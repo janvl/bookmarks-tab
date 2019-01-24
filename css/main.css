@@ -25,7 +25,7 @@ h3{
 	font-weight: bold;
 	font-size: 26px;
 	color: #1A213A;
-	margin: 0 0 40px;
+	margin: 0 0 20px;
 	position: relative;
 	
 	display: flex;
@@ -53,13 +53,15 @@ h3:before{
 
 ul{
 	margin: 0;
-	padding-left: 30px;
+	padding: 0;
+	list-style-position: inside;
 }
 
 ul li{
-	margin-bottom: 10px;
 	color: #DFE9F2;
 	font-size: 20px;
+	position: relative;
+	padding: 10px 0px;
 }
 
 .bookmark{
@@ -67,11 +69,53 @@ ul li{
 	text-decoration: none;
 	color: #1A213A;
 	padding: 0 3px;
+	display: inline-block;
+	margin-left: -8px;
 }
 
 .bookmark:hover{
 	color: #fff;
 	background-color: #3120F1;
+}
+
+.remove{
+	font-size: 16px;
+	text-decoration: none;
+	background: #1A213A;
+	color: white;
+	font-weight: 600;
+	box-shadow: 0 5px 20px 0 rgba(80,104,209,0.38);
+	position: absolute;
+	display: inline-block;
+	left: 0;
+	top: 50%;
+	padding: 8px 15px;
+	transform: translate(-130%, -50%);
+	opacity: 0;
+	transition: all 0.2s ease-in;
+}
+
+.remove:after{
+	content: "";
+	display: block;
+	height: 8px;
+	width: 8px;
+	position: absolute;
+	top: 50%;
+	right: 0;
+	transform: translate(50%, -50%) rotateZ(45deg);
+	background: #1A213A;
+	transition: all 0.2s ease-in;
+}
+
+.remove:hover,
+.remove:hover:after{
+	background-color: #3120F1;
+}
+
+ul li:hover .remove{
+	opacity: 1;
+	transform: translate(-90%, -50%);
 }
 
 .credits a{
