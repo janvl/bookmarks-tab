@@ -1,7 +1,7 @@
 // RETRIEVE BOOKMARKS
 
 chrome.bookmarks.getTree(function callback(bookmarks){
-	console.log("version 0.0.2");
+	console.log("version 0.0.4");
 	
 	// Only retrieve the first folder containing the same bookmarks that appear in your 'bookmarks bar'
 	bookmarks = bookmarks[0].children[0].children;
@@ -32,6 +32,11 @@ function loadBookmarks(bookmarks){
 			folderTitle.innerHTML += title;
 			folder.appendChild(folderTitle);
 			
+			// Add the number of links to the title element
+			var folderCount = document.createElement("span")
+			folderCount.innerHTML = "(" + links.length + ")";
+			folderTitle.appendChild(folderCount);
+			
 			// Loop through links and create list 
 			var linkList = document.createElement("ul");
 			
@@ -48,9 +53,12 @@ function loadBookmarks(bookmarks){
 		}else{
 			// This is a single bookmark, save it for later
 			url = bookmarks[i].url;
+			id = bookmarks[i].id;
+			
 			importantBookmarks.push({
 				title: title,
-				url: url
+				url: url,
+				id: id
 			});
 		}
 	}
@@ -81,6 +89,7 @@ function loadBookmarks(bookmarks){
 	console.log(importantBookmarks);
 }
 
+// ADD BOOKMARKS TO A FOLDER
 function addBookmark(bookmark, target){
 	// Retrieve Link Title, URL & ID
 	var linkTitle = bookmark.title;
@@ -100,6 +109,36 @@ function addBookmark(bookmark, target){
 	// Add link to list-item
 	linkListItem.appendChild(link);
 	
+	// Create remove element
+	var remove = document.createElement("a");
+	remove.innerHTML = "remove";
+	remove.setAttribute("href", "#");
+	remove.addEventListener("click", function(e){ 
+		e.preventDefault();
+		removeBookmark(linkID);
+	});
+	remove.classList.add("remove");
+	
+	// Add remove to list-item
+	linkListItem.appendChild(remove);
+	
 	// Add list-item to list
 	target.appendChild(linkListItem);
+}
+
+// REFRESH PAGE
+function refreshPage(){
+	location.reload();
+}
+
+// ⛔️ REMOVES BOOKMARK ⛔️
+function removeBookmark(id){
+	console.log("remove bookmark #" + id);
+	
+	// Ask confirmation before proceeding
+	if(confirm("Are you sure you want to remove this bookmark?")){
+		
+		// Remove the bookmark from chrome's storage
+		chrome.bookmarks.remove(id, refreshPage);
+	}
 }
