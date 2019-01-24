@@ -1,7 +1,7 @@
 // RETRIEVE BOOKMARKS
 
 chrome.bookmarks.getTree(function callback(bookmarks){
-	console.log("version 0.0.2");
+	console.log("version 0.0.3");
 	
 	// Only retrieve the first folder containing the same bookmarks that appear in your 'bookmarks bar'
 	bookmarks = bookmarks[0].children[0].children;
@@ -31,6 +31,11 @@ function loadBookmarks(bookmarks){
 			var folderTitle = document.createElement("h3"); 
 			folderTitle.innerHTML += title;
 			folder.appendChild(folderTitle);
+			
+			// Add the number of links to the title element
+			var folderCount = document.createElement("span")
+			folderCount.innerHTML = "(" + links.length + ")";
+			folderTitle.appendChild(folderCount);
 			
 			// Loop through links and create list 
 			var linkList = document.createElement("ul");

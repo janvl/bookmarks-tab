@@ -27,6 +27,18 @@ h3{
 	color: #1A213A;
 	margin: 0 0 40px;
 	position: relative;
+	
+	display: flex;
+	align-items: center;
+}
+
+h3 span{
+	display: inline-block;
+	font-weight: normal;
+	font-size: 16px;
+	margin-left: 10px;
+	opacity: 0.3;
+	transition: opacity 0.2s ease-in;
 }
 
 h3:before{
