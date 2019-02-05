@@ -9,7 +9,7 @@ body{
 #bookmarks{
 	margin: auto;
 	width: 100%;
-	padding: 40px 0;
+	padding: 60px 0;
 }
 
 .folder{
@@ -132,4 +132,128 @@ ul li:hover .remove{
 
 .credits a:hover{
 	background-color: #3120F1;
+}
+
+.menu{
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.menu > a {
+	text-decoration: none;
+	display: flex;
+	align-items: center;
+	padding: 20px;
+	overflow: hidden;
+}
+
+.menu > a span{
+	font-size: 12px;
+	color: #000;
+	text-transform: uppercase;
+	margin-right: -60px;
+	opacity: 0;
+	transition: margin 0.6s ease-out 0.2s, opacity 0.4s ease-out;
+}
+
+.menu > a:hover span{
+	margin-right: 0;
+	opacity: 1;
+	transition: margin 0.8s ease-out, opacity 1s ease-out 0.4s;
+}
+
+.menu > a img{
+	width: 20px;
+	height: 20px;
+	opacity: 0.35;
+	margin-right: 10px;
+	transition: all 0.6s ease-out 0.2s;
+}
+
+.menu > a:hover img{
+	opacity: 0.8;
+	transform:rotateZ(-165deg);
+	transition: all 0.8s ease-out;
+}
+
+.settings{
+	position: absolute;
+	right: 30px;
+	background-color: #1A213A;
+	padding: 25px 20px;
+	z-index: 9;
+	border-radius: 5px;
+	box-shadow: 0 5px 20px 0 rgba(80,104,209,0.38);
+	color: #fff;
+	width: 300px;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+
+.settings:after{
+	content: "";
+	display: block;
+	height: 8px;
+	width: 8px;
+	position: absolute;
+	top: 0;
+	right: 40px;
+	transform: translate(50%, -50%) rotateZ(45deg);
+	background: #1A213A;
+	transition: all 0.2s ease-in;
+}
+
+fieldset{
+	border: 0;
+}
+
+legend{
+	font-weight: 600;
+	font-size: 16px;
+	width: 100%;
+	padding-bottom: 10px;
+	border-bottom: 1px solid rgba(80,104,209,0.38);
+}
+
+input[type="radio"]{
+	margin-right: 10px;
+}
+	
+input[type="text"]{
+	margin-top: 15px;
+	padding: 8px;
+	font-size: 14px;
+	border: 0;
+}
+
+input:focus{
+	outline: none;
+}
+
+input[type="button"]{
+	background-color: #3120F1;
+	color: #fff;
+	border: none;
+	font-weight: 600;
+	padding: 8px 15px;
+	font-size: 14px;
+	transition: all 0.2s ease-in;
+	box-shadow: 0 5px 20px 0 rgba(80,104,209,0);
+	backface-visibility: hidden;
+}
+
+input[type="button"]:hover{
+	cursor: pointer;
+	transform: scale(1.1);
+	box-shadow: 0 5px 20px 0 rgba(80,104,209,0.38);
+}
+
+input[type="text"] + input[type="button"]{
+	margin-left: -5px;
+}
+
+#customTab{
+	width: 190px;
 }
