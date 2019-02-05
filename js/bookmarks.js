@@ -1,8 +1,8 @@
 //********************************************************************//
 // SETTINGS
 //********************************************************************//
-var newTab;
-var customTab;
+var newTab = "on"
+var customTab = "";
 
 //********************************************************************//
 // BOOKMARKS
@@ -158,17 +158,17 @@ function removeBookmark(id){
 // HANDLE SETTINGS
 //********************************************************************//
 
+// On load, set eventHandlers & retrieve settings
 window.addEventListener('load', function() {
     initSettingHandlers();
     retrieveSettings();
 });
 
-
-
 // RETRIEVE ALL THE SETTINGS
 function retrieveSettings(){
-	chrome.storage.sync.get(['newTab'], function(result) {
+	chrome.storage.sync.get(["newTab", "customTab"], function(result) {
       newTab = result["newTab"];
+      customTab = result["customTab"];
       setSettingsPage();
       retrieveBookmarks();
     });
@@ -177,6 +177,10 @@ function retrieveSettings(){
 // PRE-FILL THE SETTINGS BASED ON WHAT'S IN THE STORAGE
 function setSettingsPage(){
 	document.querySelectorAll("input[name='newTab'][value='" + newTab + "']")[0].checked=true;
+	
+	if(customTab != ""){
+		document.getElementById("customTab").value = customTab;
+	}
 }
 
 
@@ -204,8 +208,6 @@ function setNewTab(value){
 
 // SET THE URL TO THE CUSTOM TAB
 function setCustomTab(value){
-	if(value !== ""){
-		chrome.storage.sync.set({customTab: value});
-		customTab = value;
-	}
+	chrome.storage.sync.set({customTab: value});
+	customTab = value;
 }
