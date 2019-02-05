@@ -208,6 +208,8 @@ function initSettingHandlers(){
 function setNewTab(value){
 	chrome.storage.sync.set({newTab: value});
 	newTab = value;
+	showSavedAlert();
+	
 }
 
 
@@ -215,4 +217,16 @@ function setNewTab(value){
 function setCustomTab(value){
 	chrome.storage.sync.set({customTab: value});
 	customTab = value;
+	showSavedAlert();
+}
+
+// BIREFLY SHOW THE ALERT THAT NOTIFIES THE USER THE SETTINGS HAVE BEEN SAVED
+function showSavedAlert(){
+	var alertMessage = document.getElementById("alert");
+	
+	// Show the alert
+	alertMessage.classList.add('is-shown');
+	
+	// Wait 1s and hide alert again.
+	setTimeout(function(){ alertMessage.classList.remove('is-shown'); }, 1000);
 }

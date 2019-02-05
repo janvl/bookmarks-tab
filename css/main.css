@@ -268,3 +268,16 @@ input[type="text"] + input[type="button"]{
 #customTab{
 	width: 190px;
 }
+
+#alert{
+	position: absolute;
+	color: #000;
+	opacity: 0;
+	top: -40px;
+	left: 0;
+	transition: opacity 0.2s ease-in;
+}
+
+#alert.is-shown{
+	opacity: 0.5;
+}
