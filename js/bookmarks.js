@@ -2,6 +2,7 @@
 // SETTINGS
 //********************************************************************//
 var newTab;
+var customTab;
 
 //********************************************************************//
 // BOOKMARKS
@@ -204,10 +205,7 @@ function setNewTab(value){
 // SET THE URL TO THE CUSTOM TAB
 function setCustomTab(value){
 	if(value !== ""){
-		if(newTab == "off"){
-			console.log(value);
-		}else{
-			console.log("⚠ bookmarks have been set as new tab");	
-		}
+		chrome.storage.sync.set({customTab: value});
+		customTab = value;
 	}
 }
