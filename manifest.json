@@ -18,7 +18,7 @@
    "manifest_version": 2,
    "name": "Bookmarks Tab",
    "options_page": "options.html",
-   "permissions": [ "bookmarks", "tabs"],
+   "permissions": [ "bookmarks", "tabs", "storage"],
    "version": "0.0.4"
 }
 

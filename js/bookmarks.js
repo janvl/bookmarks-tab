@@ -1,12 +1,22 @@
-// RETRIEVE BOOKMARKS
+//********************************************************************//
+// SETTINGS
+//********************************************************************//
+var newTab;
 
-chrome.bookmarks.getTree(function callback(bookmarks){
-	console.log("version 0.0.4");
-	
-	// Only retrieve the first folder containing the same bookmarks that appear in your 'bookmarks bar'
-	bookmarks = bookmarks[0].children[0].children;
-	loadBookmarks(bookmarks);
-});
+//********************************************************************//
+// BOOKMARKS
+//********************************************************************//
+
+// RETRIEVE BOOKMARKS
+function retrieveBookmarks(){
+	chrome.bookmarks.getTree(function callback(bookmarks){
+		console.log("version 0.0.4");
+		
+		// Only retrieve the first folder containing the same bookmarks that appear in your 'bookmarks bar'
+		bookmarks = bookmarks[0].children[0].children;
+		loadBookmarks(bookmarks);
+	});
+}
 
 var importantBookmarks = new Array();
 
@@ -140,5 +150,64 @@ function removeBookmark(id){
 		
 		// Remove the bookmark from chrome's storage
 		chrome.bookmarks.remove(id, refreshPage);
+	}
+}
+
+//********************************************************************//
+// HANDLE SETTINGS
+//********************************************************************//
+
+window.addEventListener('load', function() {
+    initSettingHandlers();
+    retrieveSettings();
+});
+
+
+
+// RETRIEVE ALL THE SETTINGS
+function retrieveSettings(){
+	chrome.storage.sync.get(['newTab'], function(result) {
+      newTab = result["newTab"];
+      setSettingsPage();
+      retrieveBookmarks();
+    });
+}
+
+// PRE-FILL THE SETTINGS BASED ON WHAT'S IN THE STORAGE
+function setSettingsPage(){
+	document.querySelectorAll("input[name='newTab'][value='" + newTab + "']")[0].checked=true;
+}
+
+
+// SET EVENT HANDLERS FOR THE SETTINGS
+function initSettingHandlers(){
+	var tabSettings = document.getElementsByName("newTab");
+	tabSettings.forEach(function(elem) {
+		elem.addEventListener('click', function() {
+		    setNewTab(elem.value);
+		})
+	});
+	
+	document.getElementById("saveCustomTab").addEventListener('click', function() {
+		var value= document.getElementById("customTab").value;
+		setCustomTab(value);
+	});
+}
+
+// TOGGLE THE NEW TAB SETTING
+function setNewTab(value){
+	chrome.storage.sync.set({newTab: value});
+	newTab = value;
+}
+
+
+// SET THE URL TO THE CUSTOM TAB
+function setCustomTab(value){
+	if(value !== ""){
+		if(newTab == "off"){
+			console.log(value);
+		}else{
+			console.log("⚠ bookmarks have been set as new tab");	
+		}
 	}
 }
