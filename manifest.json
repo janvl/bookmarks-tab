@@ -19,6 +19,6 @@
    "name": "Bookmarks Tab",
    "options_page": "options.html",
    "permissions": [ "bookmarks", "tabs", "storage"],
-   "version": "0.0.4"
+   "version": "0.0.5"
 }
 
