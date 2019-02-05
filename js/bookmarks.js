@@ -1,12 +1,23 @@
-// RETRIEVE BOOKMARKS
+//********************************************************************//
+// SETTINGS
+//********************************************************************//
+var newTab = "on"
+var customTab = "";
 
-chrome.bookmarks.getTree(function callback(bookmarks){
-	console.log("version 0.0.4");
-	
-	// Only retrieve the first folder containing the same bookmarks that appear in your 'bookmarks bar'
-	bookmarks = bookmarks[0].children[0].children;
-	loadBookmarks(bookmarks);
-});
+//********************************************************************//
+// BOOKMARKS
+//********************************************************************//
+
+// RETRIEVE BOOKMARKS
+function retrieveBookmarks(){
+	chrome.bookmarks.getTree(function callback(bookmarks){
+		console.log("version 0.0.4");
+		
+		// Only retrieve the first folder containing the same bookmarks that appear in your 'bookmarks bar'
+		bookmarks = bookmarks[0].children[0].children;
+		loadBookmarks(bookmarks);
+	});
+}
 
 var importantBookmarks = new Array();
 
@@ -141,4 +152,81 @@ function removeBookmark(id){
 		// Remove the bookmark from chrome's storage
 		chrome.bookmarks.remove(id, refreshPage);
 	}
+}
+
+//********************************************************************//
+// HANDLE SETTINGS
+//********************************************************************//
+
+// On load, set eventHandlers & retrieve settings
+window.addEventListener('load', function() {
+    initSettingHandlers();
+    retrieveSettings();
+});
+
+// RETRIEVE ALL THE SETTINGS
+function retrieveSettings(){
+	chrome.storage.sync.get(["newTab", "customTab"], function(result) {
+      newTab = result["newTab"];
+      customTab = result["customTab"];
+      setSettingsPage();
+      retrieveBookmarks();
+    });
+}
+
+// PRE-FILL THE SETTINGS BASED ON WHAT'S IN THE STORAGE
+function setSettingsPage(){
+	document.querySelectorAll("input[name='newTab'][value='" + newTab + "']")[0].checked=true;
+	
+	if(customTab != ""){
+		document.getElementById("customTab").value = customTab;
+	}
+}
+
+
+// SET EVENT HANDLERS FOR THE SETTINGS
+function initSettingHandlers(){
+	document.getElementById("settingsToggle").addEventListener('click', function(elem) {
+		document.getElementById("settingsToggle").classList.toggle('is-active');
+		document.getElementById("settings").classList.toggle('is-shown');
+	});
+	
+	var tabSettings = document.getElementsByName("newTab");
+	tabSettings.forEach(function(elem) {
+		elem.addEventListener('click', function() {
+		    setNewTab(elem.value);
+		})
+	});
+	
+	document.getElementById("saveCustomTab").addEventListener('click', function() {
+		var value= document.getElementById("customTab").value;
+		setCustomTab(value);
+	});
+}
+
+// TOGGLE THE NEW TAB SETTING
+function setNewTab(value){
+	chrome.storage.sync.set({newTab: value});
+	newTab = value;
+	showSavedAlert();
+	
+}
+
+
+// SET THE URL TO THE CUSTOM TAB
+function setCustomTab(value){
+	chrome.storage.sync.set({customTab: value});
+	customTab = value;
+	showSavedAlert();
+}
+
+// BIREFLY SHOW THE ALERT THAT NOTIFIES THE USER THE SETTINGS HAVE BEEN SAVED
+function showSavedAlert(){
+	var alertMessage = document.getElementById("alert");
+	
+	// Show the alert
+	alertMessage.classList.add('is-shown');
+	
+	// Wait 1s and hide alert again.
+	setTimeout(function(){ alertMessage.classList.remove('is-shown'); }, 1000);
 }
