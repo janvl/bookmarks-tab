@@ -186,6 +186,11 @@ function setSettingsPage(){
 
 // SET EVENT HANDLERS FOR THE SETTINGS
 function initSettingHandlers(){
+	document.getElementById("settingsToggle").addEventListener('click', function(elem) {
+		document.getElementById("settingsToggle").classList.toggle('is-active');
+		document.getElementById("settings").classList.toggle('is-shown');
+	});
+	
 	var tabSettings = document.getElementsByName("newTab");
 	tabSettings.forEach(function(elem) {
 		elem.addEventListener('click', function() {
